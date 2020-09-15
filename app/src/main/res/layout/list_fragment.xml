@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".list.ListFragment">
+    tools:context=".fragment.list.RatesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -11,5 +11,15 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         android:scrollbars="vertical"/>
+
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/errorTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/item_font_size"
+        android:text="@string/error"
+        android:visibility="gone"/>
 
 </FrameLayout>

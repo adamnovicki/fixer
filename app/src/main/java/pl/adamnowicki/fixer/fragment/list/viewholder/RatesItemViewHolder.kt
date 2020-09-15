@@ -1,21 +1,16 @@
-package pl.adamnowicki.fixer.list.viewholder
+package pl.adamnowicki.fixer.fragment.list.viewholder
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fixer_list_item.view.*
 import pl.adamnowicki.fixer.components.FixerTextView
 import pl.adamnowicki.fixer.data.FixerAdapterData
-import pl.adamnowicki.fixer.data.FixerItem
-import pl.adamnowicki.fixer.data.HeaderAdapterData
 import pl.adamnowicki.fixer.data.ItemAdapterData
 
 
-class FixerItemViewHolder(
+class RatesItemViewHolder(
     view: View
 ) :
-    FixerViewHolder(view) {
+    RatesViewHolder(view) {
     var currency: FixerTextView = view.currency
     var value: FixerTextView = view.value
 

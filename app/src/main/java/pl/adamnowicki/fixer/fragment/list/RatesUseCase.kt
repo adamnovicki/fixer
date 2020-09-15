@@ -1,8 +1,8 @@
-package pl.adamnowicki.fixer.list
+package pl.adamnowicki.fixer.fragment.list
 
 import pl.adamnowicki.fixer.data.FixerItem
-import pl.adamnowicki.fixer.data.FixerRsp
 import pl.adamnowicki.fixer.data.FixerData
+import pl.adamnowicki.fixer.exception.EmptyRatesException
 import pl.adamnowicki.fixer.exception.FixerException
 import pl.adamnowicki.fixer.exception.NetworkException
 import pl.adamnowicki.fixer.ext.format
@@ -13,14 +13,14 @@ import javax.inject.Singleton
  * Created by adamnowicki on 15/09/2020.
  */
 @Singleton
-class ListUseCase @Inject constructor(private val repository: ListRepository) {
+class RatesUseCase @Inject constructor(private val repository: RatesRepository) {
 
     private val ROUND_DIGITS = 4
 
     val fixerList = mutableListOf<FixerData>()
 
-    @Throws(FixerException::class, NetworkException::class)
     suspend fun getRates(): List<FixerData> {
+
         val rsp = repository.getRates()
 
         val list = mutableListOf<FixerItem>()

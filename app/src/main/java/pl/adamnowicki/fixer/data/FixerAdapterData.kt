@@ -9,14 +9,12 @@ sealed class FixerAdapterData
 data class ItemAdapterData(
     val currency: String,
     val value: String,
-    val date: String,
-    val type: FixerListRowType
+    val date: String
 ) :
     FixerAdapterData()
 
 data class HeaderAdapterData(
-    val date: String,
-    val type: FixerListRowType
+    val date: String
 ) : FixerAdapterData()
 
 data class LoadingAdapterData(val loading: Boolean) : FixerAdapterData()

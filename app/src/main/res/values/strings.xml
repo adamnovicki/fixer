@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Kurs Euro</string>
     <string name="day_header">Dzień %1$s</string>
+    <string name="error">Wystąpił błąd</string>
 </resources>

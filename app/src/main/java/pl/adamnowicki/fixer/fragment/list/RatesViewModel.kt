@@ -1,4 +1,4 @@
-package pl.adamnowicki.fixer.list
+package pl.adamnowicki.fixer.fragment.list
 
 import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
@@ -7,47 +7,63 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import pl.adamnowicki.fixer.R
 import pl.adamnowicki.fixer.data.*
-import pl.adamnowicki.fixer.utils.DateUtils
+import pl.adamnowicki.fixer.exception.EmptyRatesException
+import pl.adamnowicki.fixer.exception.FixerException
+import pl.adamnowicki.fixer.exception.NetworkException
+import timber.log.Timber
+import java.lang.Exception
 
 @ActivityScoped
-class ListViewModel @ViewModelInject constructor(
-    private val useCase: ListUseCase,
+class RatesViewModel @ViewModelInject constructor(
+    private val useCase: RatesUseCase,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
 
     var fixerLiveData = MutableLiveData<MutableList<FixerAdapterData>>()
+    var errorLiveData = MutableLiveData<Boolean>()
 
     fun getNextDay() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.safeLaunch {
             val fixerData = useCase.getRates()
-
             val listAdapterData = mutableListOf<FixerAdapterData>()
 
             fixerData.forEach {
                 listAdapterData.add(
                     HeaderAdapterData(
-                        context.getString(R.string.day_header, it.date),
-                        FixerListRowType.FIXER_TYPE_HEADER
+                        context.getString(R.string.day_header, it.date)
                     )
                 )
 
-                it.rates.forEach {rate ->
+                it.rates.forEach { rate ->
                     listAdapterData.add(
                         ItemAdapterData(
                             rate.currency,
                             rate.value,
-                            it.date,
-                            FixerListRowType.FIXER_TYPE_ITEM
+                            it.date
                         )
                     )
                 }
             }
 
             fixerLiveData.postValue(listAdapterData)
+        }
+    }
+
+    private val handler = CoroutineExceptionHandler { context, exception ->
+        Timber.e("Caught $exception")
+        errorLiveData.postValue(true)
+
+    }
+
+    fun CoroutineScope.safeLaunch(
+        exceptionHandler: CoroutineExceptionHandler = handler,
+        launchBody: suspend () -> Unit
+    ): Job {
+        return this.launch(exceptionHandler) {
+            launchBody.invoke()
         }
     }
 }

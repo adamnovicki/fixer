@@ -1,42 +1,40 @@
-package pl.adamnowicki.fixer.list
+package pl.adamnowicki.fixer.fragment.list
 
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pl.adamnowicki.fixer.R
 import pl.adamnowicki.fixer.data.FixerAdapterData
 import pl.adamnowicki.fixer.data.HeaderAdapterData
 import pl.adamnowicki.fixer.data.ItemAdapterData
-import pl.adamnowicki.fixer.list.viewholder.FixerHeaderViewHolder
-import pl.adamnowicki.fixer.list.viewholder.FixerItemViewHolder
-import pl.adamnowicki.fixer.list.viewholder.FixerLoadingViewHolder
-import pl.adamnowicki.fixer.list.viewholder.FixerViewHolder
+import pl.adamnowicki.fixer.fragment.list.viewholder.RatesHeaderViewHolder
+import pl.adamnowicki.fixer.fragment.list.viewholder.RatesItemViewHolder
+import pl.adamnowicki.fixer.fragment.list.viewholder.RatesLoadingViewHolder
+import pl.adamnowicki.fixer.fragment.list.viewholder.RatesViewHolder
 
-class FixerAdapter(
+class RatesAdapter(
     var listData: MutableList<FixerAdapterData>,
     private val rateClickListener: (FixerAdapterData) -> Unit
-) : RecyclerView.Adapter<FixerViewHolder>() {
+) : RecyclerView.Adapter<RatesViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FixerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false) as ViewGroup
-        val viewHolder: FixerViewHolder
+        val viewHolder: RatesViewHolder
 
         viewHolder = when (viewType) {
-            R.layout.fixer_list_item -> FixerItemViewHolder(
+            R.layout.fixer_list_item -> RatesItemViewHolder(
                 view
             )
-            R.layout.fixer_list_loading -> FixerLoadingViewHolder(view)
+            R.layout.fixer_list_loading -> RatesLoadingViewHolder(view)
 
-            else -> FixerHeaderViewHolder(
+            else -> RatesHeaderViewHolder(
                 view
             )
         }
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: FixerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RatesViewHolder, position: Int) {
         val item = listData[position]
         holder.bindData(item, position)
         holder.itemView.setOnClickListener { rateClickListener(item) }
