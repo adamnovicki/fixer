@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:paddingStart="@dimen/rates_padding"
+    android:paddingEnd="@dimen/rates_padding">
+
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/currency"
+        android:layout_width="@dimen/currency_item_width"
+        android:layout_height="@dimen/list_item_size"
+        android:layout_alignParentStart="true"
+        android:gravity="start|center_vertical"
+        android:textStyle="bold"
+        android:textSize="@dimen/item_font_size"/>
+
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/value"
+        android:layout_width="@dimen/value_item_width"
+        android:layout_height="@dimen/list_item_size"
+        android:layout_toEndOf="@id/currency"
+        android:gravity="end|center_vertical"
+        android:textSize="@dimen/item_font_size" />
+
+</RelativeLayout>

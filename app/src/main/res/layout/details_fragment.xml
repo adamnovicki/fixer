@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    tools:context=".details.DetailsFragment">
+    
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_item_size"
+        android:layout_alignParentStart="true"
+        android:gravity="start|center_vertical"
+        android:textStyle="bold"
+        android:textSize="@dimen/item_font_size"/>
+    
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_item_size"
+        android:layout_alignParentStart="true"
+        android:gravity="start|center_vertical"
+        android:textStyle="bold"
+        android:textSize="@dimen/item_font_size"/>
+    
+    <pl.adamnowicki.fixer.components.FixerTextView
+        android:id="@+id/value"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_item_size"
+        android:layout_alignParentStart="true"
+        android:gravity="start|center_vertical"
+        android:textStyle="bold"
+        android:textSize="@dimen/item_font_size"/>
+
+</RelativeLayout>
