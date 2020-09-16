@@ -17,7 +17,7 @@ class RatesUseCase @Inject constructor(private val repository: RatesRepository) 
 
     private val ROUND_DIGITS = 4
 
-    val fixerList = mutableListOf<FixerData>()
+    private val fixerList = mutableListOf<FixerData>()
 
     suspend fun getRates(): List<FixerData> {
 

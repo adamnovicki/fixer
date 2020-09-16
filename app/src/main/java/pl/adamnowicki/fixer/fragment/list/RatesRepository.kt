@@ -4,6 +4,7 @@ import pl.adamnowicki.fixer.data.FixerRsp
 import pl.adamnowicki.fixer.exception.EmptyRatesException
 import pl.adamnowicki.fixer.exception.FixerException
 import pl.adamnowicki.fixer.exception.NetworkException
+import pl.adamnowicki.fixer.manager.RatesDayManager
 import pl.adamnowicki.fixer.network.FixerApi
 import pl.adamnowicki.fixer.utils.DateUtils
 import java.lang.Exception
@@ -13,15 +14,13 @@ import javax.inject.Singleton
 @Singleton
 class RatesRepository @Inject constructor(
     private val fixerApi: FixerApi,
-    private val dateUtils: DateUtils
+    private val ratesDayManager: RatesDayManager
 ) {
-
-    var daysBefore = -1
 
     @Throws(FixerException::class, NetworkException::class, EmptyRatesException::class)
     suspend fun getRates(): FixerRsp {
         try {
-            val rsp = fixerApi.getByDate(nextDay())
+            val rsp = fixerApi.getByDate(ratesDayManager.nextDay())
             if (!rsp.success) {
                 throw FixerException()
             }
@@ -34,6 +33,4 @@ class RatesRepository @Inject constructor(
             throw NetworkException()
         }
     }
-
-    private fun nextDay() = dateUtils minusDays ++daysBefore
 }

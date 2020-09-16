@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class DateUtils @Inject constructor() {
     private val FIXER_DAY_FORMAT = "yyyy-MM-dd"
 
-    infix fun minusDays(days: Int): String = DateTime().minusDays(days).toString(fixerFormatter())
+    infix fun daysBefore(days: Int): String = DateTime().minusDays(days).toString(fixerFormatter())
 
     private fun fixerFormatter() = DateTimeFormat.forPattern(FIXER_DAY_FORMAT)
         .withLocale(Locale.getDefault())

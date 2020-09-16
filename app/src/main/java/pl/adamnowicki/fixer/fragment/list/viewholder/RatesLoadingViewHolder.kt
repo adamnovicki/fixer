@@ -10,7 +10,6 @@ class RatesLoadingViewHolder(
     view: View
 ) :
     RatesViewHolder(view) {
-    var progressBar: ProgressBar = view.progressBar
 
     override fun bindData(item: FixerAdapterData, position: Int) {
     }

@@ -20,50 +20,41 @@ import java.lang.Exception
 class RatesViewModel @ViewModelInject constructor(
     private val useCase: RatesUseCase,
     @ApplicationContext private val context: Context,
+    private val contextProvider: CoroutinesContextProvider
 ) : ViewModel() {
 
     var fixerLiveData = MutableLiveData<MutableList<FixerAdapterData>>()
     var errorLiveData = MutableLiveData<Boolean>()
 
     fun getNextDay() {
-        viewModelScope.safeLaunch {
-            val fixerData = useCase.getRates()
-            val listAdapterData = mutableListOf<FixerAdapterData>()
+        viewModelScope.launch(contextProvider.IO) {
+            try {
+                val fixerData = useCase.getRates()
+                val listAdapterData = mutableListOf<FixerAdapterData>()
 
-            fixerData.forEach {
-                listAdapterData.add(
-                    HeaderAdapterData(
-                        context.getString(R.string.day_header, it.date)
-                    )
-                )
-
-                it.rates.forEach { rate ->
+                fixerData.forEach {
                     listAdapterData.add(
-                        ItemAdapterData(
-                            rate.currency,
-                            rate.value,
-                            it.date
+                        HeaderAdapterData(
+                            context.getString(R.string.day_header, it.date)
                         )
                     )
+
+                    it.rates.forEach { rate ->
+                        listAdapterData.add(
+                            ItemAdapterData(
+                                rate.currency,
+                                rate.value,
+                                it.date
+                            )
+                        )
+                    }
                 }
+
+                fixerLiveData.postValue(listAdapterData)
+            } catch (e: Exception) {
+                Timber.e(e, "ex rates")
+                errorLiveData.postValue(true)
             }
-
-            fixerLiveData.postValue(listAdapterData)
-        }
-    }
-
-    private val handler = CoroutineExceptionHandler { context, exception ->
-        Timber.e("Caught $exception")
-        errorLiveData.postValue(true)
-
-    }
-
-    fun CoroutineScope.safeLaunch(
-        exceptionHandler: CoroutineExceptionHandler = handler,
-        launchBody: suspend () -> Unit
-    ): Job {
-        return this.launch(exceptionHandler) {
-            launchBody.invoke()
         }
     }
 }
